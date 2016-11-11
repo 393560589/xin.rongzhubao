@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #oInp ul{
+            position: relative;
+        }
+        #oInp li{
+            color: #fff2bf;
+            text-align: center;
+            list-style: none;
+            line-height:80px;
+            width:100%;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="we">
+    <input type="file" id="file" name="uploadfile"/>
+    <input type="submit" value="添加" id="submit">
+    <input type="text" id="h4">
+</div>
+<div class="w2"></div>
+
+<input type="file" id="filechooser">
+
+    <script src="node_modules/reqwest/reqwest.js"></script>
+
+    <script>
+        var h4 = document.getElementById('h4');
+            h4.oninput = function(){
+
+            }
+        var files = document.getElementById('file');
+            files.onchange=function(){
+                if(files.value != ''){
+                    var data = files.files;
+                    var formData = new FormData();
+                    formData.append('upfile',data[0])
+                    reqwest({
+                        url: 'http://www.rongzhubao.cn/upload.php',
+                        method: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (xrh) {
+                            var xrh = eval('['+xrh+']');
+                            console.log(xrh);
+                            console.log(xrh[0].img)
+                        }
+                    })
+                }
+            }
+var filechooser = document.getElementById('filechooser')
+        filechooser.onchange = function () {
+            if (!this.files.length) return;
+
+            var files = Array.prototype.slice.call(this.files);
+
+            if (files.length > 9) {
+                alert("最多同时只可上传9张图片");
+                return;
+            }
+
+            files.forEach(function (file, i) {
+                if (!/\/(?:jpegpnggif)/i.test(file.type)) return;
+
+                var reader = new FileReader();
+
+
+                reader.onload = function () {
+                    var result = this.result;
+                    var img = new Image();
+                    img.src = result;
+
+                    //如果图片大小小于200kb，则直接上传
+                    if (result.length <= maxsize) {
+                        $(li).css("background-image", "url(" + result + ")");
+                        img = null;
+                        upload(result, file.type, $(li));
+
+                        return;
+                    }
+
+                    //                图片加载完毕之后进行压缩，然后上传
+                    if (img.complete) {
+                        callback();
+                    } else {
+                        img.onload = callback;
+                    }
+
+                    function callback() {
+                        var data = compress(img);
+
+                        $(li).css("background-image", "url(" + data + ")");
+
+                        upload(data, file.type, $(li));
+
+                        img = null;
+                    }
+
+                };
+
+                reader.readAsDataURL(file);
+            })
+        };
+
+
+    </script>
+</body>
+</html>

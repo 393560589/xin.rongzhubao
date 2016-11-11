@@ -1,0 +1,36 @@
+.gamelist {
+    margin-bottom: 2rem;
+    padding: 0 14px;
+}
+.gamelist a {
+    padding: 0.5rem 0;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+}
+.gameWrap,
+.listTip {
+    float: left;
+}
+.listTip{
+    height: 2rem;
+}
+.listTip p {
+    line-height: 1rem;
+    vertical-align: middle;
+}
+.iconfont {
+    float: right;
+    line-height: 2rem;
+}
+.gameWrap {
+    overflow: hidden;
+    margin-right: 10px;
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    box-shadow: 0 0 2px #666;
+    border-radius: 5px;
+}
+.gamelist a:nth-last-of-type(1) {
+    border-bottom: none;
+}

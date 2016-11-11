@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Document</title>
+    <style>
+        input{
+            display: block;
+            width: 100%;
+            font-size: 20px;
+            line-height: 30px;
+            height: 40px;
+            margin: 4px 0;
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<input type="button" value="流程1" onclick="car1()">
+<input type="button" value="流程2" onclick="car2()">
+<input type="button" value="流程3" onclick="car3()">
+
+<input type="button" value="流程4" onclick="car4()">
+
+
+<input type="button" value="流程5" onclick="car5()">
+<script src="../reqwest.js"></script>
+<script>
+
+    //imme     opid   token
+    //         userId   agent
+
+
+    var chanceId,id;
+
+    var opid = 'opgIYwRopHjPh6m3_G9k9HoQeuqA',
+            token = '17d6c114b',
+            base=btoa( opid+':'+token);
+
+    function car5(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/insurance',
+            method:'post',
+            data:{
+                chanceId:'23676274',
+                _action:'calculationHtml'
+            },
+            headers:{
+                'Authorization':'Basic '+base,
+                'Accept':'application/json, text/plain, */*'
+            },
+            success:function(xrh){
+                console.log(xrh)
+                var json = eval('['+xrh+']')
+            }
+        })
+    }
+
+    function car1(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/carone',
+            method:'post',
+            data:{
+                opid :'opgIYwYUWTNL-XeqkZkc7-NGjj1g',
+                city:'51016001',
+                car_no:'川A1Y689',
+                phone :'18633288263',
+                ins_id : '1'
+            },
+            success:function(xrh){
+                id=xrh.id;
+
+            }
+        })
+    }
+
+    function car2(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/cartwo',
+            method:'post',
+            data:{
+                opid :'opgIYwYUWTNL-XeqkZkc7-NGjj1g',
+                car_type :'大众FV7166FAMGG轿车',
+                car_id : 'BJADJD0015',
+                vin: 'LFV2A11K4E4271678',
+                edg_no : 'N84181',
+                log_time : '2015-6-6',
+                transfer : '0',
+                tra_time : '',
+                name :'马冰冰',
+                card_no : '130633199008270698',
+                purchasePrice : '58800',
+                seatNoForCheck : '5',
+                id : id,
+                effect_time :'2016-11-12'
+            },
+            success:function(){}
+        })
+    }
+    function car6(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/carwar',
+            method:'get',
+            data:{
+                opid :'opgIYwYUWTNL-XeqkZkc7-NGjj1g',
+                car_type :'大众FV7166FAMGG轿车',
+                car_id : 'BJADJD0015',
+                vin: 'LFV2A11K4E4271678',
+                edg_no : 'N84181',
+                log_time : '2015-6-6',
+                transfer : '0',
+                tra_time : '',
+                name :'马冰冰',
+                card_no : '130633199008270698',
+                purchasePrice : '58800',
+                seatNoForCheck : '5',
+                id : id,
+                effect_time :'2016-11-12'
+            },
+            success:function(){}
+        })
+    }
+
+//
+    // A车辆损失险 B第三者责任保险 kindFLag:1  G全车盗抢保险  D3车上人员责任保险(司机)
+    //D4车上人员责任保险(乘客)(quantity:7)
+    //F玻璃单独破碎险 (modeCode 2/1)
+    //Z自燃险损失险
+    //L车身划痕险  kindFLag:1  保费premium      AB  G1
+    var skindArray=[
+        {
+            "kindCode": "A",//车辆损失险
+            "serialNo": 1,//传值为1
+            "quantity": 1,//传值为1
+            "amount": "45264.8",//财钱数额
+            "value": 0,//0
+            "deductibleRate": 0,//0
+            "unitAmount": "45264.8",//同数额
+            "modeCode": "",
+            "kindFlag": 1//选中
+        },{
+            "kindCode": "B",//第三者责任保险
+            "serialNo": 1,
+            "quantity": 1,
+            "amount": "500000.0",
+            "value": 0,
+            "deductibleRate": 0,
+            "unitAmount": "500000.0",
+            "modeCode": "",
+            "kindFlag": 1
+        },
+        {
+            "kindCode": "D3",//第三者责任保险
+            "serialNo": 1,
+            "quantity": 1,
+            "amount": "50000.0",
+            "value": 0,
+            "deductibleRate": 0,
+            "unitAmount": "50000.0",
+            "modeCode": "",
+            "kindFlag": 0
+        },
+        {
+            "kindCode": "M",//
+            "serialNo": 1,
+            "quantity": 1,
+            "amount": 0,
+            "value": 0,
+            "deductibleRate": 0,
+            "unitAmount": 0,
+            "modeCode": "",
+            "kindFlag": 0
+        }]
+    console.log(skindArray)
+    var kindArray= JSON.stringify(skindArray);
+
+    function car4(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/insurance',
+            method:'post',
+            data:{
+                _action:'calculationHtml',
+                chanceId:'23643560'
+            },
+            success:function(xrh){
+                var json =xrh
+                var jsondata = eval('['+json+']');
+                console.log(jsondata[0]);
+                console.log(jsondata[0].result);
+                console.log(jsondata[0].ckinds[0]);
+            }
+        })
+    }
+
+    function car3(){
+        reqwest({
+            url:'http://api.rongzhubao.cn/V1/insurance',
+            method:'post',
+            data:{
+                answer:'&',
+                chanceId:'23643560',
+                kindArray:skindArray,
+                _action:'insuranceCalculate',
+            },
+            success:function(xrh){
+                var json =xrh
+                var jsondata = eval('['+json+']');
+                console.log(jsondata[0]);
+                console.log(jsondata[0].result);
+                console.log(jsondata[0].ckinds[0]);
+            }
+        })
+    }
+</script>
+</body>
+</html>
